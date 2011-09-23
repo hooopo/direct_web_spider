@@ -19,13 +19,13 @@ Features
 Run
 ------------
 * 运行顺序
-
-  script/run_fetcher -> script/run_paginater -> script/run_digger -> script/run_parser
-
-* 启动参数: ruby script/run_parser -eproduction -dty -ndangdang
+  1. ruby script/run_fetcher
+  2. ruby script/run_paginater
+  3. ruby script/run_digger 
+  4. ruby script/run_parser
+* 启动参数: ruby script/run_parser -eproduction -dty -sdangdang -n500
   * -e指定环境（production/development）默认为development.
   * -d为以什么方式下载(ty->多线程，normal ->单线程, em -> EventIO)默认为normal,推荐使用ty参数
   * -s为指定运行哪个网站(dangdang,jingdong,etc)默认是当当
   * -n为指定一次爬取多少条记录，默认1000
   * -h为帮助信息
-
