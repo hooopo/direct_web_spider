@@ -1,0 +1,19 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'optparse'
+require 'irb'
+require 'irb/completion'
+require File.expand_path(File.dirname(__FILE__) + "/../utils/utils")
+require File.expand_path(File.dirname(__FILE__) + "/../utils/optparse")
+
+Spider::Utils.load_mongo(SpiderOptions[:environment])
+Spider::Utils.load_models
+Spider::Utils.load_fetcher
+Spider::Utils.load_paginater
+Spider::Utils.load_digger
+Spider::Utils.load_parser
+Spider::Utils.load_downloader
+include Spider
+IRB.start
+

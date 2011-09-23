@@ -1,0 +1,53 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activemodel (3.0.10)
+      activesupport (= 3.0.10)
+      builder (~> 2.1.2)
+      i18n (~> 0.5.0)
+    activesupport (3.0.10)
+    addressable (2.2.6)
+    bson (1.3.1)
+    bson_ext (1.3.1)
+    builder (2.1.2)
+    em-http-request (0.3.0)
+      addressable (>= 2.0.0)
+      escape_utils
+      eventmachine (>= 0.12.9)
+    escape_utils (0.2.3)
+    eventmachine (0.12.10)
+    i18n (0.5.0)
+    mime-types (1.16)
+    mini_magick (3.3)
+      subexec (~> 0.1.0)
+    mini_tesseract (0.0.7)
+      mini_magick (~> 3.0)
+      rmagick (>= 2.10.1)
+    mongo (1.3.1)
+      bson (>= 1.3.1)
+    mongoid (2.1.9)
+      activemodel (~> 3.0)
+      mongo (~> 1.3)
+      tzinfo (~> 0.3.22)
+    mongoid-tree (0.6.1)
+      mongoid (~> 2.0)
+    nokogiri (1.5.0)
+    rmagick (2.13.1)
+    subexec (0.1.0)
+    typhoeus (0.2.4)
+      mime-types
+      mime-types
+    tzinfo (0.3.29)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bson_ext (~> 1.3)
+  em-http-request
+  eventmachine
+  mini_tesseract
+  mongoid (~> 2.1.0)
+  mongoid-tree
+  nokogiri
+  typhoeus

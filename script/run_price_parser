@@ -1,0 +1,47 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require 'open-uri'
+require 'timeout'
+require 'rtesseract'
+require File.expand_path(File.dirname(__FILE__) + "/../utils/utils")
+require File.expand_path(File.dirname(__FILE__) + "/../utils/optparse")
+require File.expand_path(File.dirname(__FILE__) + "/../logger")
+
+Spider::Utils.load_mongo(SpiderOptions[:environment])
+Spider::Utils.load_models
+
+include Spider::Logger
+#开始下载
+def download(product)
+  begin
+    image = open(product.price_url).read
+  rescue Timeout::Error, Errno::ECONNREFUSED
+    logger.error($!)
+  else
+    yield image
+  end
+end
+#保存图片到系统
+def save_image(product, image)
+  file = File.expand_path(File.dirname(__FILE__) + "/../tmp/#{product.id}.png")
+  File.open(file, "wb") do |f|
+    f.write image
+  end
+  file
+end
+#开始解析
+def start_parse(product)
+  download(product) do |image|
+    file = save_image(product, image)
+    ocr = RTesseract.new(file, :processor => :mini_magick)
+    logger.info(ocr.to_s.force_encoding("UTF-8").gsub(/\s+/, "") + " ---> " + ocr.to_s.force_encoding("UTF-8").scan(/\d|\./).join.to_f.to_s)
+    product.update_attributes :price => ocr.to_s.force_encoding("UTF-8").scan(/\d|\./).join.to_f
+    File.delete(file)
+  end
+end
+
+products = Product.from_kind(SpiderOptions[:name]).where(:price => nil).limit(SpiderOptions[:number])
+products.each do |product|
+  start_parse(product)
+end

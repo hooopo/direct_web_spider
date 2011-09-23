@@ -1,0 +1,47 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + "/../utils/utils")
+require File.expand_path(File.dirname(__FILE__) + "/../utils/optparse")
+require File.expand_path(File.dirname(__FILE__) + "/../downloader") 
+require File.expand_path(File.dirname(__FILE__) + "/../logger")
+
+Spider::Utils.load_mongo(SpiderOptions[:environment])
+Spider::Utils.load_models
+Spider::Utils.load_redis(SpiderOptions[:environment])
+Spider::Utils.load_parser
+Spider::Utils.load_downloader
+
+include Spider::Logger
+
+CurrentParser = "Spider::#{SpiderOptions[:name].capitalize}Parser".constantize
+CurrentDownloader = "Spider::#{SpiderOptions[:downloader].capitalize}Downloader".constantize
+
+def assoc_category(list, kind)
+  cate_list = list.map do |name_and_url|
+    Category.find_or_create_by(name_and_url.merge(:kind => kind))
+  end
+  set_assoc!(cate_list)
+end
+
+def set_assoc!(cate_list)
+  cate_list.each_cons(2) do |pair|
+    parent, child = pair
+    child.parent = parent
+    child.save
+  end
+end
+
+def start_parse(product_url)
+  parser = CurrentParser.new(product_url)
+  assoc_category(parser.belongs_to_categories, SpiderOptions[:name])
+  product = Product.create parser.attributes
+  if product.persisted?
+    logger.info "Parsed Product URL: #{product_url.url}"
+    product_url.update_attributes(:completed => true)
+  end
+end
+
+product_urls = ProductUrl.from_kind(SpiderOptions[:name]).where(:completed => false).limit(SpiderOptions[:number])
+downloader = CurrentDownloader.new(product_urls)
+downloader.run{|product_url| start_parse(product_url)}

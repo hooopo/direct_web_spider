@@ -1,0 +1,3 @@
+development:
+  host: localhost
+  database: testapp_development

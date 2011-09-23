@@ -1,0 +1,18 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + "/../utils/utils")
+require File.expand_path(File.dirname(__FILE__) + "/../utils/optparse")
+require File.expand_path(File.dirname(__FILE__) + "/../logger")
+
+Spider::Utils.load_mongo(SpiderOptions[:environment])
+Spider::Utils.load_models
+Spider::Utils.load_fetcher
+
+include Spider::Logger
+
+ThisFetcher = "Spider::#{SpiderOptions[:name].capitalize}Fetcher".constantize
+ThisFetcher.category_list.each do |category|
+  cat = Category.from_kind(SpiderOptions[:name]).create :url => category[:url], :kind => SpiderOptions[:name], :name => category[:name]
+  logger.info "Saved URL:#{cat.url}" if cat.persisted?
+end

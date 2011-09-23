@@ -1,0 +1,31 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + "/../utils/utils")
+require File.expand_path(File.dirname(__FILE__) + "/../utils/optparse")
+require File.expand_path(File.dirname(__FILE__) + "/../downloader")
+require File.expand_path(File.dirname(__FILE__) + "/../logger")
+
+Spider::Utils.load_mongo(SpiderOptions[:environment])
+Spider::Utils.load_models
+Spider::Utils.load_digger
+Spider::Utils.load_downloader
+
+include Spider::Logger
+
+CurrentDigger     = "Spider::#{SpiderOptions[:name].capitalize}Digger".constantize
+CurrentDownloader = "Spider::#{SpiderOptions[:downloader].capitalize}Downloader".constantize
+
+def start_digg(page)
+  digger = CurrentDigger.new(page)
+  digger.product_list.each do |url|
+    product_url = ProductUrl.create :url => url, :kind => SpiderOptions[:name], :page_id => page.id
+    logger.info "Saved Product URL: #{url}" if product_url.persisted?
+  end
+  page.update_attributes(:completed => true)
+  logger.info "Completed Page URL: #{page.url}" if page.persisted?
+end
+
+pages = Page.from_kind(SpiderOptions[:name]).where(:completed => false).limit(SpiderOptions[:number])
+downloader = CurrentDownloader.new(pages)
+downloader.run{|page| start_digg(page)}
