@@ -1,11 +1,12 @@
-# webspider
-Webspider is direct web spider framwork for ruby.
+# direct_web_spider
+direct_web_spider is direct web spider framwork for ruby.
 
 Requirements
 ------------
 Ruby1.9.2+
 
   sudo apt-get install libcurl4-gnutls-dev
+  bundle install
 
 Features
 ------------
@@ -18,14 +19,16 @@ Features
 
 Run
 ------------
-运行顺序
+* 运行顺序
+
   script/run_fetcher -> script/run_paginater -> script/run_digger -> script/run_parser
-启动参数
+
+* 启动参数
+
   script/run_parser -eproduction -dty -ndangdang
   -e指定环境（production/development）默认为development.
   -d为以什么方式下载(ty->多线程，normal ->单线程, em -> EventIO)默认为normal,推荐使用ty参数
   -s为指定运行哪个网站(dangdang,jingdong,etc)默认是当当
   -n为指定一次爬取多少条记录，默认1000
   -h为帮助信息
-
 
