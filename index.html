@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Direct web spider : A direct web spider framworks for Ruby" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Direct web spider</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/hooopo/direct_web_spider">View on GitHub</a>
+
+          <h1 id="project_title">Direct web spider</h1>
+          <h2 id="project_tagline">A direct web spider framworks for Ruby</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/hooopo/direct_web_spider/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/hooopo/direct_web_spider/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>direct_web_spider</h1>
+
+<p>direct_web_spider is direct web spider framwork for ruby.</p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>Ruby1.9.2+</li>
+<li>sudo apt-get install libcurl4-gnutls-dev</li>
+<li>bundle install</li>
+</ul><h2>Features</h2>
+
+<ul>
+<li>将定向爬取网站抽象成几个独立的过程(Fetcher, Paginater, Digger, Parser)</li>
+<li>封装爬取所需的通用功能，让开发者只需关心网页信息抽取逻辑</li>
+<li>编码处理模块</li>
+<li>日志模块,方便调试和错误跟踪</li>
+<li>多种下载接口（单线程、多线程、Event IO）,并可以随时切换</li>
+<li>简单图片识别功能（针对电子商务网站价格信息为图片的情况）</li>
+</ul><h2>Run</h2>
+
+<ul>
+<li>运行顺序
+
+<ol>
+<li>ruby script/run_fetcher</li>
+<li>ruby script/run_paginater</li>
+<li>ruby script/run_digger </li>
+<li>ruby script/run_parser</li>
+</ol>
+</li>
+<li>启动参数: ruby script/run_parser -eproduction -dty -sdangdang -n500
+
+<ul>
+<li>-e指定环境（production/development）默认为development.</li>
+<li>-d为以什么方式下载(ty-&gt;多线程，normal -&gt;单线程, em -&gt; EventIO)默认为normal,推荐使用ty参数</li>
+<li>-s为指定运行哪个网站(dangdang,jingdong,etc)默认是当当</li>
+<li>-n为指定一次爬取多少条记录，默认1000</li>
+<li>-h为帮助信息</li>
+</ul>
+</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Direct web spider maintained by <a href="https://github.com/hooopo">hooopo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
