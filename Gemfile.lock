@@ -20,6 +20,7 @@ GEM
     mime-types (1.16)
     mini_magick (3.3)
       subexec (~> 0.1.0)
+    mini_portile2 (2.4.0)
     mini_tesseract (0.0.7)
       mini_magick (~> 3.0)
       rmagick (>= 2.10.1)
@@ -31,11 +32,11 @@ GEM
       tzinfo (~> 0.3.22)
     mongoid-tree (0.6.1)
       mongoid (~> 2.0)
-    nokogiri (1.5.0)
+    nokogiri (1.10.4)
+      mini_portile2 (~> 2.4.0)
     rmagick (2.13.1)
     subexec (0.1.0)
     typhoeus (0.2.4)
-      mime-types
       mime-types
     tzinfo (0.3.29)
 
